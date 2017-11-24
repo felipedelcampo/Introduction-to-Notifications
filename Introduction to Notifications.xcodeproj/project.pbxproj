@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		CA8487301FC84FD200396309 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA84872F1FC84FD200396309 /* AppDelegate.swift */; };
-		CA8487321FC84FD200396309 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8487311FC84FD200396309 /* ViewController.swift */; };
+		CA8487321FC84FD200396309 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8487311FC84FD200396309 /* NotificationsViewController.swift */; };
 		CA8487351FC84FD200396309 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA8487331FC84FD200396309 /* Main.storyboard */; };
 		CA8487371FC84FD200396309 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA8487361FC84FD200396309 /* Assets.xcassets */; };
 		CA84873A1FC84FD200396309 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA8487381FC84FD200396309 /* LaunchScreen.storyboard */; };
+		CA8487441FC8526400396309 /* NotificationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8487431FC8526400396309 /* NotificationDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CA84872C1FC84FD200396309 /* Introduction to Notifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Introduction to Notifications.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA84872F1FC84FD200396309 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CA8487311FC84FD200396309 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CA8487311FC84FD200396309 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		CA8487341FC84FD200396309 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA8487361FC84FD200396309 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA8487391FC84FD200396309 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA84873B1FC84FD200396309 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA8487431FC8526400396309 /* NotificationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +57,8 @@
 			isa = PBXGroup;
 			children = (
 				CA84872F1FC84FD200396309 /* AppDelegate.swift */,
-				CA8487311FC84FD200396309 /* ViewController.swift */,
+				CA8487311FC84FD200396309 /* NotificationsViewController.swift */,
+				CA8487431FC8526400396309 /* NotificationDetailsViewController.swift */,
 				CA8487331FC84FD200396309 /* Main.storyboard */,
 				CA8487361FC84FD200396309 /* Assets.xcassets */,
 				CA8487381FC84FD200396309 /* LaunchScreen.storyboard */,
@@ -136,7 +139,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA8487321FC84FD200396309 /* ViewController.swift in Sources */,
+				CA8487321FC84FD200396309 /* NotificationsViewController.swift in Sources */,
+				CA8487441FC8526400396309 /* NotificationDetailsViewController.swift in Sources */,
 				CA8487301FC84FD200396309 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
