@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import UserNotifications
 
 class NotificationDetailsViewController: UIViewController {
     
@@ -17,56 +16,18 @@ class NotificationDetailsViewController: UIViewController {
     @IBOutlet weak var bodyTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     
-    let picker = UIImagePickerController()
     var imageURL: URL?
+    
+    var notification: LocalNotificationProtocol?
+    var notificationItem: LocalNotificationItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    }
-    
-    func scheduleNotification(at date: Date) {
-        
-        let calendar = Calendar(identifier: .gregorian)
-        let components = calendar.dateComponents(in: .current, from: date)
-        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
-        
-        let content = UNMutableNotificationContent()
-        if let title = titleTextField.text {
-            content.title = title
-        }
-        if let subtitle = subtitleTextField.text {
-            content.subtitle = subtitle
-        }
-        if let body = bodyTextField.text {
-            content.body = body
-        }
-        
-        if let image = imageView.image {
-            
-            do {
-                let data = UIImagePNGRepresentation(image)!
-                let imageURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathExtension("image.png")
-                try? data.write(to: imageURL)
-                
-                let attachment = try UNNotificationAttachment(identifier: imageURL.lastPathComponent, url: imageURL, options: nil)
-                content.attachments = [attachment]
-            } catch {
-                print("The attachment was not loaded.")
-            }
-        }
-        
-        content.sound = UNNotificationSound.default()
-        
-        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().add(request) {(error) in
-            if let error = error {
-                print("Uh oh! We had an error: \(error)")
-            }
+        if #available(iOS 10.0, *) {
+            notification = LocalNotificationiOS10()
+        } else {
+            notification = LocalNotificationiOS9()
         }
     }
     
@@ -77,12 +38,28 @@ class NotificationDetailsViewController: UIViewController {
     
     @IBAction func didTouchSaveButton(_ sender: Any) {
         
-        scheduleNotification(at: datePicker.date)
-        navigationController?.popViewController(animated: true)
+        let notificationItem = LocalNotificationItem(title: titleTextField.text,
+                                                     subtitle: subtitleTextField.text,
+                                                     body: bodyTextField.text,
+                                                     triggerDate: datePicker.date)
+        
+        notification?.scheduleNotification(notificationItem: notificationItem) { error in
+            DispatchQueue.main.async {
+                if error == nil {
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    let alert = UIAlertController(title: "Error!", message: error.debugDescription, preferredStyle: UIAlertControllerStyle.alert)
+                    let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alert.addAction(cancelAction)
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
     
     @IBAction func didTouchImagePickerButton(_ sender: Any) {
         
+        let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = false
         picker.sourceType = .photoLibrary
@@ -101,13 +78,13 @@ extension NotificationDetailsViewController: UIImagePickerControllerDelegate, UI
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         imageURL = info[UIImagePickerControllerReferenceURL] as? URL
-        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         imageView.image = chosenImage
         dismiss(animated:true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
+        dismiss(animated:true, completion: nil)
     }
-    
 }

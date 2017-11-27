@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA7468111FCC32C20065D809 /* LocalNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */; };
+		CA7468131FCC32E10065D809 /* LocalNotificationiOS9.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */; };
+		CA7468151FCC32F40065D809 /* LocalNotificationiOS10.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468141FCC32F40065D809 /* LocalNotificationiOS10.swift */; };
+		CA7468171FCC3B420065D809 /* LocalNotificationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468161FCC3B420065D809 /* LocalNotificationItem.swift */; };
 		CA8487301FC84FD200396309 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA84872F1FC84FD200396309 /* AppDelegate.swift */; };
 		CA8487321FC84FD200396309 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8487311FC84FD200396309 /* NotificationsViewController.swift */; };
 		CA8487351FC84FD200396309 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA8487331FC84FD200396309 /* Main.storyboard */; };
@@ -16,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationProtocol.swift; sourceTree = "<group>"; };
+		CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationiOS9.swift; sourceTree = "<group>"; };
+		CA7468141FCC32F40065D809 /* LocalNotificationiOS10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationiOS10.swift; sourceTree = "<group>"; };
+		CA7468161FCC3B420065D809 /* LocalNotificationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationItem.swift; sourceTree = "<group>"; };
 		CA84872C1FC84FD200396309 /* Introduction to Notifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Introduction to Notifications.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA84872F1FC84FD200396309 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA8487311FC84FD200396309 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +67,10 @@
 				CA84872F1FC84FD200396309 /* AppDelegate.swift */,
 				CA8487311FC84FD200396309 /* NotificationsViewController.swift */,
 				CA8487431FC8526400396309 /* NotificationDetailsViewController.swift */,
+				CA7468161FCC3B420065D809 /* LocalNotificationItem.swift */,
+				CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */,
+				CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */,
+				CA7468141FCC32F40065D809 /* LocalNotificationiOS10.swift */,
 				CA8487331FC84FD200396309 /* Main.storyboard */,
 				CA8487361FC84FD200396309 /* Assets.xcassets */,
 				CA8487381FC84FD200396309 /* LaunchScreen.storyboard */,
@@ -139,8 +151,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA7468131FCC32E10065D809 /* LocalNotificationiOS9.swift in Sources */,
+				CA7468151FCC32F40065D809 /* LocalNotificationiOS10.swift in Sources */,
+				CA7468171FCC3B420065D809 /* LocalNotificationItem.swift in Sources */,
 				CA8487321FC84FD200396309 /* NotificationsViewController.swift in Sources */,
 				CA8487441FC8526400396309 /* NotificationDetailsViewController.swift in Sources */,
+				CA7468111FCC32C20065D809 /* LocalNotificationProtocol.swift in Sources */,
 				CA8487301FC84FD200396309 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,7 +231,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -266,7 +282,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -280,6 +296,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Introduction to Notifications/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "moitinhoneto.Introduction-to-Notifications";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -294,6 +311,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Introduction to Notifications/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "moitinhoneto.Introduction-to-Notifications";
 				PRODUCT_NAME = "$(TARGET_NAME)";

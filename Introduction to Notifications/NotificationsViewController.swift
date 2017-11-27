@@ -11,13 +11,19 @@ import UserNotifications
 
 class NotificationsViewController: UITableViewController {
     
-    var pendingNotificationRequests: [UNNotificationRequest] = []
-    var deliveredNotifications: [UNNotification] = []
+    var localNotification: LocalNotificationProtocol?
+    var pendingNotificationRequests: [LocalNotificationItem] = []
+    var deliveredNotifications: [LocalNotificationItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UNUserNotificationCenter.current().delegate = self
+        if #available(iOS 10.0, *) {
+            localNotification = LocalNotificationiOS10()
+            UNUserNotificationCenter.current().delegate = self
+        } else {
+            localNotification = LocalNotificationiOS9()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,19 +32,46 @@ class NotificationsViewController: UITableViewController {
         fetchNotifications()
     }
     
-    @IBAction func cleanAllNotifications(_ sender: Any) {
+    @IBAction func didTouchTrashButton(_ sender: Any? = nil) {
         
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        localNotification?.removeAllNotifications()
         fetchNotifications()
+    }
+    
+    @IBAction func didTouchNewNotificationButton(_ sender: Any? = nil) {
+        
+        localNotification?.getNotificationSettings { authorizationStatus in
+            
+            if authorizationStatus == true {
+                
+                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: String(describing: NotificationDetailsViewController.self)) else {
+                    return
+                }
+                
+                self.navigationController?.pushViewController(controller, animated: true)
+            } else if authorizationStatus == false {
+                
+                let alert = UIAlertController(title: "Error!", message: "Autho", preferredStyle: UIAlertControllerStyle.alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alert.addAction(cancelAction)
+                self.present(alert, animated: true)
+            } else {
+                
+                self.localNotification?.requestAuthorization { _ in
+                    
+                    self.didTouchNewNotificationButton()
+                }
+            }
+        }
     }
     
     private func fetchNotifications() {
         
-        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
+        localNotification?.getDeliveredNotifications { notifications in
             
             self.deliveredNotifications = notifications
             
-            UNUserNotificationCenter.current().getPendingNotificationRequests() { requests in
+            self.localNotification?.getPendingNotificationRequests { requests in
                 
                 self.pendingNotificationRequests = requests
                 
@@ -73,35 +106,29 @@ class NotificationsViewController: UITableViewController {
         cell.textLabel?.numberOfLines = 10
         cell.selectionStyle = .none
         
-        var title = ""
-        var subtitle = ""
-        var body = ""
-        var date = ""
+        var notificationItem: LocalNotificationItem?
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
-        
-        switch indexPath.section {
-        case 0:
-            let request = pendingNotificationRequests[indexPath.row]
-            let content = request.content
-            title = content.title
-            subtitle = content.subtitle
-            body = content.body
-            let trigger = request.trigger as? UNCalendarNotificationTrigger
-            date = dateFormatter.string(from: trigger!.nextTriggerDate()!)
-        case 1:
-            let notification = deliveredNotifications[indexPath.row]
-            let content = notification.request.content
-            title = content.title
-            subtitle = content.subtitle
-            body = content.body
-            date = dateFormatter.string(from: notification.date)
-        default:
-            break
+        if indexPath.section ==  0 {
+            notificationItem = pendingNotificationRequests[indexPath.row]
+        } else if indexPath.section ==  1 {
+            notificationItem = deliveredNotifications[indexPath.row]
         }
         
-        cell.textLabel?.text = String(format: "Title: %@ \nSubtitle: %@ \nBody: %@ \nDate: %@", title, subtitle, body, date)
+        cell.textLabel?.text = ""
+        if let title = notificationItem?.title {
+            cell.textLabel?.text? += String(format: "Title: %@", title)
+        }
+        if let subtitle = notificationItem?.subtitle {
+            cell.textLabel?.text? += String(format: "\nSubtitle: %@", subtitle)
+        }
+        if let body = notificationItem?.body {
+            cell.textLabel?.text? += String(format: "\nBody: %@", body)
+        }
+        if let date = notificationItem?.triggerDate {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
+            cell.textLabel?.text? += String(format: "\nDate: %@", dateFormatter.string(from: date))
+        }
         
         return cell
     }
@@ -116,8 +143,51 @@ class NotificationsViewController: UITableViewController {
             return nil
         }
     }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        if #available(iOS 10.0, *) {
+            
+            let editAction = UITableViewRowAction(style: .default, title: "Edit", handler: { action, indexPath in
+                
+                var notificationItem: LocalNotificationItem?
+                if indexPath.section ==  0 {
+                    notificationItem = self.pendingNotificationRequests[indexPath.row]
+                } else if indexPath.section ==  1 {
+                    notificationItem = self.deliveredNotifications[indexPath.row]
+                }
+                
+                guard let controller = self.storyboard?.instantiateViewController(withIdentifier: String(describing: NotificationDetailsViewController.self)) as? NotificationDetailsViewController else {
+                    return
+                }
+                
+                controller.notificationItem = notificationItem
+                self.navigationController?.pushViewController(controller, animated: true)
+            })
+            editAction.backgroundColor = UIColor.blue
+            
+            let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { action, indexPath in
+                
+                var items: [LocalNotificationItem] = []
+                if indexPath.section ==  0 {
+                    items.append(self.pendingNotificationRequests[indexPath.row])
+                } else if indexPath.section ==  1 {
+                    items.append(self.deliveredNotifications[indexPath.row])
+                }
+                
+                self.localNotification?.removeNotificationList(items: items)
+                self.fetchNotifications()
+            })
+            deleteAction.backgroundColor = UIColor.red
+            
+            return [editAction, deleteAction]
+        } else {
+            return []
+        }
+    }
 }
 
+@available(iOS 10.0, *)
 extension NotificationsViewController: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
