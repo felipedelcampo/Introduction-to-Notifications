@@ -77,8 +77,6 @@ class NotificationsViewController: UITableViewController {
                 
             }
         }
-        
-        self.presentingViewController
     }
     
     @objc private func fetchNotifications() {
