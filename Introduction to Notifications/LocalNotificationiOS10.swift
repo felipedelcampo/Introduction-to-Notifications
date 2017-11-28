@@ -18,20 +18,25 @@ class LocalNotificationiOS10: LocalNotificationProtocol {
         
         notificationCenter.requestAuthorization(options: [.alert, .sound]) { accepted, error in
             
-            completionHandler(accepted)
+            DispatchQueue.main.async {
+                completionHandler(accepted)
+            }
         }
     }
     
     func getNotificationSettings(completionHandler: @escaping (Bool?) -> Swift.Void) {
         
         notificationCenter.getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .authorized:
-                completionHandler(true)
-            case .denied:
-                completionHandler(false)
-            case .notDetermined:
-                completionHandler(nil)
+            
+            DispatchQueue.main.async {
+                switch settings.authorizationStatus {
+                case .authorized:
+                    completionHandler(true)
+                case .denied:
+                    completionHandler(false)
+                case .notDetermined:
+                    completionHandler(nil)
+                }
             }
         }
     }
@@ -58,26 +63,14 @@ class LocalNotificationiOS10: LocalNotificationProtocol {
             content.body = body
         }
         
-//        if let image = imageView.image {
-//
-//            do {
-//                let data = UIImagePNGRepresentation(image)!
-//                let imageURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathExtension("image.png")
-//                try? data.write(to: imageURL)
-//
-//                let attachment = try UNNotificationAttachment(identifier: imageURL.lastPathComponent, url: imageURL, options: nil)
-//                content.attachments = [attachment]
-//            } catch {
-//                print("The attachment was not loaded.")
-//            }
-//        }
-        
         content.sound = UNNotificationSound.default()
         
         let request = UNNotificationRequest(identifier: notificationItem.identifier, content: content, trigger: trigger)
         
-        notificationCenter.add(request) {(error) in
-            completionHandler?(error)
+        notificationCenter.add(request) { error in
+            DispatchQueue.main.async {
+                completionHandler?(error)
+            }
         }
     }
     
@@ -91,7 +84,8 @@ class LocalNotificationiOS10: LocalNotificationProtocol {
                 if  let trigger = request.trigger as? UNCalendarNotificationTrigger,
                     let triggerDate = trigger.nextTriggerDate() {
                     
-                let notificationItem = LocalNotificationItem(title: request.content.title,
+                let notificationItem = LocalNotificationItem(identifier: request.identifier,
+                                                             title: request.content.title,
                                                              subtitle: request.content.subtitle,
                                                              body: request.content.body,
                                                              triggerDate: triggerDate)
@@ -100,7 +94,9 @@ class LocalNotificationiOS10: LocalNotificationProtocol {
                 }
             }
             
-            completionHandler(notificationItems)
+            DispatchQueue.main.async {
+                completionHandler(notificationItems)
+            }
         }
     }
     
@@ -111,15 +107,18 @@ class LocalNotificationiOS10: LocalNotificationProtocol {
             var notificationItems: [LocalNotificationItem] = []
             for notification in notifications {
                     
-                    let notificationItem = LocalNotificationItem(title: notification.request.content.title,
-                                                                 subtitle: notification.request.content.subtitle,
-                                                                 body: notification.request.content.body,
-                                                                 triggerDate: notification.date)
+                let notificationItem = LocalNotificationItem(identifier: notification.request.identifier,
+                                                            title: notification.request.content.title,
+                                                            subtitle: notification.request.content.subtitle,
+                                                            body: notification.request.content.body,
+                                                            triggerDate: notification.date)
                     
                     notificationItems.append(notificationItem)
             }
             
-            completionHandler(notificationItems)
+            DispatchQueue.main.async {
+                completionHandler(notificationItems)
+            }
         }
     }
     

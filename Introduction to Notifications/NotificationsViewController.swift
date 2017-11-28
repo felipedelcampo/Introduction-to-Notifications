@@ -49,18 +49,31 @@ class NotificationsViewController: UITableViewController {
                 }
                 
                 self.navigationController?.pushViewController(controller, animated: true)
+                
             } else if authorizationStatus == false {
                 
-                let alert = UIAlertController(title: "Error!", message: "Autho", preferredStyle: UIAlertControllerStyle.alert)
-                let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alert.addAction(cancelAction)
+                let alert = UIAlertController(title: "Error!", message: "Notifications authorization denied.", preferredStyle: UIAlertControllerStyle.alert)
+                let settingsAction = UIAlertAction(title: "Ok", style: .default) { _ in
+                    
+                    if #available(iOS 10.0, *) {
+                        guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                            return
+                        }
+                        
+                        if UIApplication.shared.canOpenURL(settingsUrl) {
+                            UIApplication.shared.open(settingsUrl)
+                        }
+                    }
+                }
+                alert.addAction(settingsAction)
                 self.present(alert, animated: true)
+                
             } else {
                 
                 self.localNotification?.requestAuthorization { _ in
-                    
                     self.didTouchNewNotificationButton()
                 }
+                
             }
         }
     }
@@ -75,9 +88,7 @@ class NotificationsViewController: UITableViewController {
                 
                 self.pendingNotificationRequests = requests
                 
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+                self.tableView.reloadData()
             }
         }
     }
@@ -91,14 +102,24 @@ class NotificationsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        switch section {
-        case 0:
+        if section == 0 {
             return pendingNotificationRequests.count
-        case 1:
+        } else if section == 1 {
             return deliveredNotifications.count
-        default:
-            return 0
         }
+        
+        return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if section == 0 {
+            return pendingNotificationRequests.count > 0 ? "Pending Notification" : nil
+        } else if section == 1 {
+            return deliveredNotifications.count > 0 ? "Delivered Notifications" : nil
+        }
+        
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -115,33 +136,25 @@ class NotificationsViewController: UITableViewController {
         }
         
         cell.textLabel?.text = ""
+        if let identifier = notificationItem?.identifier, identifier != "" {
+            cell.textLabel?.text? += String(format: "Identifier: %@\n", identifier)
+        }
         if let title = notificationItem?.title {
-            cell.textLabel?.text? += String(format: "Title: %@", title)
+            cell.textLabel?.text? += String(format: "Title: %@\n", title)
         }
         if let subtitle = notificationItem?.subtitle {
-            cell.textLabel?.text? += String(format: "\nSubtitle: %@", subtitle)
+            cell.textLabel?.text? += String(format: "Subtitle: %@\n", subtitle)
         }
         if let body = notificationItem?.body {
-            cell.textLabel?.text? += String(format: "\nBody: %@", body)
+            cell.textLabel?.text? += String(format: "Body: %@\n", body)
         }
         if let date = notificationItem?.triggerDate {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yy hh:mm:ss"
-            cell.textLabel?.text? += String(format: "\nDate: %@", dateFormatter.string(from: date))
+            cell.textLabel?.text? += String(format: "Date: %@", dateFormatter.string(from: date))
         }
         
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Pending Notification"
-        case 1:
-            return "Delivered Notifications"
-        default:
-            return nil
-        }
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -192,7 +205,7 @@ extension NotificationsViewController: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        fetchNotifications()
         completionHandler([.alert, .sound])
+        fetchNotifications()
     }
 }

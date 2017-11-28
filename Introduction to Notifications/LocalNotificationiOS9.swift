@@ -31,16 +31,7 @@ class LocalNotificationiOS9: LocalNotificationProtocol {
         
         let notification = UILocalNotification()
         notification.alertTitle = notificationItem.title
-        
-        var alertBody: String?
-        if let subtitle = notificationItem.body {
-            alertBody = subtitle + "\n"
-        }
-        if let body = notificationItem.body {
-            alertBody = alertBody ?? "" + body
-        }
-        notification.alertBody = alertBody
-        
+        notification.alertBody = notificationItem.body
         notification.fireDate = notificationItem.triggerDate
         notification.soundName = UILocalNotificationDefaultSoundName
         
@@ -60,7 +51,8 @@ class LocalNotificationiOS9: LocalNotificationProtocol {
         for notification in notifications {
             
             if let triggerDate = notification.fireDate {
-                let notificationItem = LocalNotificationItem(title: notification.alertTitle,
+                let notificationItem = LocalNotificationItem(identifier: "",
+                                                             title: notification.alertTitle,
                                                              subtitle: nil,
                                                              body: notification.alertBody,
                                                              triggerDate: triggerDate)

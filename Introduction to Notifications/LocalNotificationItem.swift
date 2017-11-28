@@ -10,9 +10,9 @@ import UIKit
 
 struct LocalNotificationItem {
     
+    var identifier: String
     var title: String?
     var subtitle: String?
     var body: String?
     var triggerDate: Date
-    var identifier: String { return String(format: "%d", triggerDate.timeIntervalSince1970) }
 }

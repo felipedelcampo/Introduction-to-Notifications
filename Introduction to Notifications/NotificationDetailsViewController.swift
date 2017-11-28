@@ -10,24 +10,42 @@ import UIKit
 
 class NotificationDetailsViewController: UIViewController {
     
-    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var identifierView: UIView!
+    @IBOutlet weak var titleView: UIView!
+    @IBOutlet weak var subtitleView: UIView!
+    @IBOutlet weak var bodyView: UIView!
+    
+    @IBOutlet weak var identifierTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var subtitleTextField: UITextField!
     @IBOutlet weak var bodyTextField: UITextField!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var datePicker: UIDatePicker!
     
-    var imageURL: URL?
-    
-    var notification: LocalNotificationProtocol?
+    var localNotification: LocalNotificationProtocol?
     var notificationItem: LocalNotificationItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if #available(iOS 10.0, *) {
-            notification = LocalNotificationiOS10()
+            localNotification = LocalNotificationiOS10()
         } else {
-            notification = LocalNotificationiOS9()
+            localNotification = LocalNotificationiOS9()
+            
+            identifierView.removeFromSuperview()
+            subtitleView.removeFromSuperview()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let notificationItem = notificationItem {
+            identifierTextField.text = notificationItem.identifier
+            titleTextField.text = notificationItem.title
+            subtitleTextField.text = notificationItem.subtitle
+            bodyTextField.text = notificationItem.body
+            datePicker.date = notificationItem.triggerDate
         }
     }
     
@@ -38,53 +56,26 @@ class NotificationDetailsViewController: UIViewController {
     
     @IBAction func didTouchSaveButton(_ sender: Any) {
         
-        let notificationItem = LocalNotificationItem(title: titleTextField.text,
+        let notificationItem = LocalNotificationItem(identifier: identifierTextField.text ?? "",
+                                                     title: titleTextField.text,
                                                      subtitle: subtitleTextField.text,
                                                      body: bodyTextField.text,
                                                      triggerDate: datePicker.date)
         
-        notification?.scheduleNotification(notificationItem: notificationItem) { error in
-            DispatchQueue.main.async {
-                if error == nil {
-                    self.navigationController?.popViewController(animated: true)
-                } else {
-                    let alert = UIAlertController(title: "Error!", message: error.debugDescription, preferredStyle: UIAlertControllerStyle.alert)
-                    let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alert.addAction(cancelAction)
-                    self.present(alert, animated: true)
-                }
+        localNotification?.scheduleNotification(notificationItem: notificationItem) { error in
+            if error == nil {
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                let alert = UIAlertController(title: "Error!", message: error.debugDescription, preferredStyle: UIAlertControllerStyle.alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alert.addAction(cancelAction)
+                self.present(alert, animated: true)
             }
         }
-    }
-    
-    @IBAction func didTouchImagePickerButton(_ sender: Any) {
-        
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.allowsEditing = false
-        picker.sourceType = .photoLibrary
-        picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
-        present(picker, animated: true)
     }
     
     @IBAction func didTouchBackgroundButton(_ sender: Any) {
         
         view.endEditing(true)
-    }
-}
-
-extension NotificationDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        imageURL = info[UIImagePickerControllerReferenceURL] as? URL
-        let chosenImage = info[UIImagePickerControllerOriginalImage] as? UIImage
-        imageView.image = chosenImage
-        dismiss(animated:true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
-        dismiss(animated:true, completion: nil)
     }
 }
