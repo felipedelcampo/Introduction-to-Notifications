@@ -46,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    // iOS 9
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         
         let alert = UIAlertController(title: "LocalNotification did receive notification.", message: nil, preferredStyle: .alert)
@@ -61,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+// iOS 10
 @available(iOS 10.0, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
     

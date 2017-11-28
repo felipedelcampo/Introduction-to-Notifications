@@ -32,8 +32,8 @@ class NotificationDetailsViewController: UIViewController {
         } else {
             localNotification = LocalNotificationiOS9()
             
-            identifierView.removeFromSuperview()
-            subtitleView.removeFromSuperview()
+            identifierView.isHidden = true
+            subtitleView.isHidden = true
         }
     }
     
