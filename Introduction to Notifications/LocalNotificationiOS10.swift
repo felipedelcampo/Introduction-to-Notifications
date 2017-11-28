@@ -63,6 +63,9 @@ class LocalNotificationiOS10: LocalNotificationProtocol {
             content.body = body
         }
         
+        //UNNotificationAttachment
+        //content.attachments = []
+        
         content.sound = UNNotificationSound.default()
         
         let request = UNNotificationRequest(identifier: notificationItem.identifier, content: content, trigger: trigger)

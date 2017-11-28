@@ -76,7 +76,7 @@
                                     <action selector="didTouchBackgroundButton:" destination="uCm-Ht-Fbc" eventType="touchUpInside" id="JBp-70-AuW"/>
                                 </connections>
                             </button>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="IFD-FE-aRv">
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="IFD-FE-aRv">
                                 <rect key="frame" x="0.0" y="451" width="375" height="216"/>
                                 <date key="date" timeIntervalSinceReferenceDate="532980097.00666797">
                                     <!--2017-11-21 18:01:37 +0000-->

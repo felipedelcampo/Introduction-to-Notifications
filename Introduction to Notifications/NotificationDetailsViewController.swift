@@ -66,9 +66,8 @@ class NotificationDetailsViewController: UIViewController {
             if error == nil {
                 self.navigationController?.popViewController(animated: true)
             } else {
-                let alert = UIAlertController(title: "Error!", message: error.debugDescription, preferredStyle: UIAlertControllerStyle.alert)
-                let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alert.addAction(cancelAction)
+                let alert = UIAlertController(title: "Error!", message: error.debugDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
             }
         }

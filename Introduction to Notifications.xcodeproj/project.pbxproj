@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA72366E1FCD864D0049C5DF /* swift_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = CA72366D1FCD864D0049C5DF /* swift_logo.png */; };
 		CA7468111FCC32C20065D809 /* LocalNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */; };
 		CA7468131FCC32E10065D809 /* LocalNotificationiOS9.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */; };
 		CA7468151FCC32F40065D809 /* LocalNotificationiOS10.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468141FCC32F40065D809 /* LocalNotificationiOS10.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA72366D1FCD864D0049C5DF /* swift_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swift_logo.png; sourceTree = "<group>"; };
 		CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationProtocol.swift; sourceTree = "<group>"; };
 		CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationiOS9.swift; sourceTree = "<group>"; };
 		CA7468141FCC32F40065D809 /* LocalNotificationiOS10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationiOS10.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */,
 				CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */,
 				CA7468141FCC32F40065D809 /* LocalNotificationiOS10.swift */,
+				CA72366D1FCD864D0049C5DF /* swift_logo.png */,
 				CA8487331FC84FD200396309 /* Main.storyboard */,
 				CA8487361FC84FD200396309 /* Assets.xcassets */,
 				CA8487381FC84FD200396309 /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 			files = (
 				CA84873A1FC84FD200396309 /* LaunchScreen.storyboard in Resources */,
 				CA8487371FC84FD200396309 /* Assets.xcassets in Resources */,
+				CA72366E1FCD864D0049C5DF /* swift_logo.png in Resources */,
 				CA8487351FC84FD200396309 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,20 +7,21 @@
 //
 
 import UIKit
-import UserNotifications
 
 class NotificationsViewController: UITableViewController {
     
-    var localNotification: LocalNotificationProtocol?
-    var pendingNotificationRequests: [LocalNotificationItem] = []
-    var deliveredNotifications: [LocalNotificationItem] = []
+    private var localNotification: LocalNotificationProtocol?
+    private var pendingNotificationRequests: [LocalNotificationItem] = []
+    private var deliveredNotifications: [LocalNotificationItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(fetchNotifications), for: .valueChanged)
+        
         if #available(iOS 10.0, *) {
             localNotification = LocalNotificationiOS10()
-            UNUserNotificationCenter.current().delegate = self
         } else {
             localNotification = LocalNotificationiOS9()
         }
@@ -52,7 +53,7 @@ class NotificationsViewController: UITableViewController {
                 
             } else if authorizationStatus == false {
                 
-                let alert = UIAlertController(title: "Error!", message: "Notifications authorization denied.", preferredStyle: UIAlertControllerStyle.alert)
+                let alert = UIAlertController(title: "Error!", message: "Notifications authorization denied.", preferredStyle: .alert)
                 let settingsAction = UIAlertAction(title: "Ok", style: .default) { _ in
                     
                     if #available(iOS 10.0, *) {
@@ -76,9 +77,11 @@ class NotificationsViewController: UITableViewController {
                 
             }
         }
+        
+        self.presentingViewController
     }
     
-    private func fetchNotifications() {
+    @objc private func fetchNotifications() {
         
         localNotification?.getDeliveredNotifications { notifications in
             
@@ -89,6 +92,7 @@ class NotificationsViewController: UITableViewController {
                 self.pendingNotificationRequests = requests
                 
                 self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
             }
         }
     }
@@ -197,15 +201,5 @@ class NotificationsViewController: UITableViewController {
         } else {
             return []
         }
-    }
-}
-
-@available(iOS 10.0, *)
-extension NotificationsViewController: UNUserNotificationCenterDelegate {
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        completionHandler([.alert, .sound])
-        fetchNotifications()
     }
 }
