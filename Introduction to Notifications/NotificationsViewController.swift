@@ -161,6 +161,8 @@ class NotificationsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
+        var actions: [UITableViewRowAction] = []
+        
         if #available(iOS 10.0, *) {
             
             let editAction = UITableViewRowAction(style: .default, title: "Edit", handler: { action, indexPath in
@@ -181,23 +183,25 @@ class NotificationsViewController: UITableViewController {
             })
             editAction.backgroundColor = UIColor.blue
             
-            let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { action, indexPath in
-                
-                var items: [LocalNotificationItem] = []
-                if indexPath.section ==  0 {
-                    items.append(self.pendingNotificationRequests[indexPath.row])
-                } else if indexPath.section ==  1 {
-                    items.append(self.deliveredNotifications[indexPath.row])
-                }
-                
-                self.localNotification?.removeNotificationList(items: items)
-                self.fetchNotifications()
-            })
-            deleteAction.backgroundColor = UIColor.red
-            
-            return [editAction, deleteAction]
-        } else {
-            return []
+            actions.append(editAction)
         }
+            
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { action, indexPath in
+            
+            var items: [LocalNotificationItem] = []
+            if indexPath.section ==  0 {
+                items.append(self.pendingNotificationRequests[indexPath.row])
+            } else if indexPath.section ==  1 {
+                items.append(self.deliveredNotifications[indexPath.row])
+            }
+            
+            self.localNotification?.removeNotificationList(items: items)
+            self.fetchNotifications()
+        })
+        deleteAction.backgroundColor = UIColor.red
+        
+        actions.append(deleteAction)
+        
+        return actions
     }
 }
