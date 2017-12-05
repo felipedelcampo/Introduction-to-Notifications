@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		44D8D6561FD6DF8B003626E6 /* AppDelegateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D8D6551FD6DF8B003626E6 /* AppDelegateExtension.swift */; };
 		CA72366E1FCD864D0049C5DF /* swift_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = CA72366D1FCD864D0049C5DF /* swift_logo.png */; };
 		CA7468111FCC32C20065D809 /* LocalNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */; };
 		CA7468131FCC32E10065D809 /* LocalNotificationiOS9.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		44D8D6551FD6DF8B003626E6 /* AppDelegateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateExtension.swift; sourceTree = "<group>"; };
 		CA72366D1FCD864D0049C5DF /* swift_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swift_logo.png; sourceTree = "<group>"; };
 		CA7468101FCC32C20065D809 /* LocalNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationProtocol.swift; sourceTree = "<group>"; };
 		CA7468121FCC32E10065D809 /* LocalNotificationiOS9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationiOS9.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				CA84872F1FC84FD200396309 /* AppDelegate.swift */,
+				44D8D6551FD6DF8B003626E6 /* AppDelegateExtension.swift */,
 				CA8487311FC84FD200396309 /* NotificationsViewController.swift */,
 				CA8487431FC8526400396309 /* NotificationDetailsViewController.swift */,
 				CA7468161FCC3B420065D809 /* LocalNotificationItem.swift */,
@@ -161,6 +164,7 @@
 				CA8487321FC84FD200396309 /* NotificationsViewController.swift in Sources */,
 				CA8487441FC8526400396309 /* NotificationDetailsViewController.swift in Sources */,
 				CA7468111FCC32C20065D809 /* LocalNotificationProtocol.swift in Sources */,
+				44D8D6561FD6DF8B003626E6 /* AppDelegateExtension.swift in Sources */,
 				CA8487301FC84FD200396309 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
