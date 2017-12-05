@@ -73,7 +73,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void) {
         
-        let alert = UIAlertController(title: "NotificationCenter did receive notification.", message: response.actionIdentifier, preferredStyle: .alert)
+        let alert = UIAlertController(title: "NotificationCenter recebeu a notificação.", message: response.actionIdentifier, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         window?.rootViewController?.present(alert, animated: true)
     }
